@@ -7,9 +7,9 @@ sp.init_printing( use_latex='mathjax' )
 
 t = sp.var('t')
 f = sp.Function('f')
-diffeq = sp.Eq(sp.tanh(sp.euler(f(t))), sp.diff(f(t), t)**-1)
+diffeq = sp.Eq(f(t), sp.diff(f(t), t))
 
-def euler(q, dt, ti, tf, qi, *argv):
+def euler(q, dt, ti, tf, qi):
     dfdt = sp.solve(q, sp.diff(f(t), t))
     dfdt_eval = lambda x: sp.N(sp.re(dfdt[0].subs(f(t), x)))
 
@@ -23,7 +23,7 @@ def euler(q, dt, ti, tf, qi, *argv):
     return(f_approx)
 
 #%%
-eul = euler(diffeq, 0.00001, 0, 2, 0)
-mpl.plot(np.arange(0, 2.00001, 0.00001), eul)
+eul = euler(diffeq, 0.01, 0, 2, 0)
+mpl.plot(np.arange(0, 2.01, 0.01), eul)
 
 print(eul)
